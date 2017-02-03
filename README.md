@@ -1,20 +1,22 @@
-# Inbox
+# inbox-server
 
-To start your Phoenix app:
+Inbox is a small application to store and manage resources (URLs, text snippets, etc.)
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `npm install`
-  * Start Phoenix endpoint with `mix phoenix.server`
+## Development
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+```
+$ mix deps.get
+$ mix phoenix.server
+```
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+### Tests
 
-## Learn more
+```
+$ mix test
+```
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## License
+
+inbox-server is licensed under the MIT license.
+
+See [LICENSE](./LICENSE) for the full license text.

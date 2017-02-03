@@ -20,7 +20,8 @@ defmodule Inbox.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Inbox do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", Inbox do
+    pipe_through :api
+    post "/resources", ResourceController, :create
+  end
 end
