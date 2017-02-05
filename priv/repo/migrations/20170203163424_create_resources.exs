@@ -3,11 +3,11 @@ defmodule Inbox.Repo.Migrations.CreateResources do
 
   def change do
     create table(:resources) do
-      add :url, :binary, null: false
+      add :uri, :binary, null: false
 
       timestamps
     end
 
-    create unique_index(:resources, [:url])
+    create unique_index(:resources, [:uri])
   end
 end

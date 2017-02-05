@@ -14,14 +14,13 @@ defmodule Inbox.Router do
   end
 
   scope "/", Inbox do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
   scope "/api/v1", Inbox do
     pipe_through :api
-    post "/resources", ResourceController, :create
+    resources "/resources", ResourceController
   end
 end

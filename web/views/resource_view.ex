@@ -1,25 +1,22 @@
 defmodule Inbox.ResourceView do
   use Inbox.Web, :view
 
-  def render("show.json", %{resource: resource}) do
-    %{
-      resource: %{
-        id: resource.id,
-        url: resource.url,
-        created_at: resource.inserted_at,
-        updated_at: resource.updated_at
-      }
-    }
+  def render("index.json", %{resources: resources}) do
+    %{data: render_many(resources, Inbox.ResourceView, "one.json")}
   end
 
-  def render("error.json", %{changeset: changeset}) do
-    %{
-      errors: Enum.map(changeset.errors, fn {attribute, message} ->
-        %{
-          attribute: attribute,
-          message: translate_error(message)
-        }
-      end)
-    }
+  def render("show.json", %{resource: resource}) do
+    %{data: render_one(resource, Inbox.ResourceView, "one.json")}
+  end
+
+  def render("resource.json", %{resource: resource}) do
+    %{data: render_one(resource, Inbox.ResourceView, "one.json")}
+  end
+
+  def render("one.json", %{resource: resource}) do
+    %{id: resource.id,
+      uri: resource.uri,
+      created_at: resource.inserted_at,
+      updated_at: resource.updated_at}
   end
 end

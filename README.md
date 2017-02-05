@@ -2,6 +2,10 @@
 
 Inbox is a small application to store and manage resources (URLs, text snippets, etc.)
 
+## API
+
+See [API.md](./API.md).
+
 ## Development
 
 ```

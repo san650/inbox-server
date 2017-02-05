@@ -2,15 +2,18 @@ defmodule Inbox.Resource do
   use Inbox.Web, :model
 
   schema "resources" do
-    field :url, :binary
+    field :uri, :string
 
-    timestamps
+    timestamps()
   end
 
-  def changeset(model = %Inbox.Resource{}, params) do
-    model
-    |> cast(params, ~w(url))
-    |> validate_required(:url)
-    |> unique_constraint(:url)
+  @doc """
+  Builds a changeset based on the `struct` and `params`.
+  """
+  def changeset(struct, params \\ :empty) do
+    struct
+    |> cast(params, [:uri])
+    |> validate_required([:uri])
+    |> unique_constraint(:uri)
   end
 end
