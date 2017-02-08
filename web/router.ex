@@ -22,5 +22,6 @@ defmodule Inbox.Router do
   scope "/api/v1", Inbox do
     pipe_through :api
     resources "/resources", ResourceController
+    resources "/tags", TagController, only: [:index]
   end
 end
