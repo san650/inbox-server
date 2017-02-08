@@ -17,11 +17,20 @@ defmodule Inbox.ResourceController do
   end
 
   def index(conn, %{"tags" => tag_params}) do
+    include_tags = Enum.filter(tag_params, &(String.match?(&1, ~r/^[^~]/)))
+    exclude_tags = Enum.filter(tag_params, &(String.match?(&1, ~r/^~/)))
+              |> Enum.map(&(String.replace_prefix(&1, "~", "")))
+
     # FIXME convert to Ecto query to filter in the DB
     resources = Repo.all(Resource)
                 |> Repo.preload(:tags)
+                |> Stream.filter(fn resource ->
+                  Enum.all?(include_tags, fn tag ->
+                    Enum.find(resource.tags, &(&1.name == tag))
+                  end)
+                end)
                 |> Enum.filter(fn resource ->
-                  Enum.all?(tag_params, fn tag ->
+                  !Enum.any?(exclude_tags, fn tag ->
                     Enum.find(resource.tags, &(&1.name == tag))
                   end)
                 end)
