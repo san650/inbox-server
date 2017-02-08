@@ -32,6 +32,29 @@ defmodule Inbox.ResourceControllerTest do
     assert response(conn, 200) == "https://www.example.org/ foo bar\n"
   end
 
+  test "filters entries based on tags as JSON", %{conn: conn} do
+    Repo.insert!(Resource.changeset_with_tags(%Resource{}, %{uri: "https://www.example.org/foo"}, ~w(foo bar)))
+    Repo.insert!(Resource.changeset_with_tags(%Resource{}, %{uri: "https://www.example.org/bar"}, ~w(foo baz)))
+    Repo.insert!(Resource.changeset_with_tags(%Resource{}, %{uri: "https://www.example.org/qux"}, ~w(qux)))
+
+    conn = get(conn, resource_path(conn, :index), %{"tags" => ~w(foo bar)})
+
+    response = json_response(conn, 200)["data"]
+
+    assert response
+    assert length(response) == 1
+    assert List.first(response)["uri"] == "https://www.example.org/foo"
+
+    conn = get(conn, resource_path(conn, :index), %{"tags" => ~w(foo)})
+
+    response = json_response(conn, 200)["data"]
+
+    assert response
+    assert length(response) == 2
+    assert List.first(response)["uri"] == "https://www.example.org/foo"
+    assert List.last(response)["uri"] == "https://www.example.org/bar"
+  end
+
   test "shows chosen resource", %{conn: conn} do
     resource = Repo.insert! @valid_resource
     conn = get conn, resource_path(conn, :show, resource)

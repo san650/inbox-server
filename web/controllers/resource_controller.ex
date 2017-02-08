@@ -16,6 +16,22 @@ defmodule Inbox.ResourceController do
     Plug.Conn.assign(conn, :request_type, type)
   end
 
+  def index(conn, %{"tags" => tag_params}) do
+    # FIXME convert to Ecto query to filter in the DB
+    resources = Repo.all(Resource)
+                |> Repo.preload(:tags)
+                |> Enum.filter(fn resource ->
+                  Enum.all?(tag_params, fn tag ->
+                    Enum.find(resource.tags, &(&1.name == tag))
+                  end)
+                end)
+
+    case conn.assigns[:request_type] do
+      :json -> render(conn, "index.json", resources: resources)
+      :text -> render(conn, "index.txt", resources: resources)
+    end
+  end
+
   def index(conn, _params) do
     resources = Repo.all(Resource) |> Repo.preload(:tags)
 
