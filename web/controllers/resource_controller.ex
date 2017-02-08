@@ -1,12 +1,28 @@
 defmodule Inbox.ResourceController do
   use Inbox.Web, :controller
   plug :reacomodate_tags_params, only: ["create"]
+  plug :put_request_type, only: ["index"]
 
   alias Inbox.Resource
 
+  defp put_request_type(conn, _opts) do
+    accepts = hd(Plug.Conn.get_req_header(conn, "accept"))
+
+    type = case "json" in MIME.extensions(accepts) do
+      true -> :json
+      false -> :text
+    end
+
+    Plug.Conn.assign(conn, :request_type, type)
+  end
+
   def index(conn, _params) do
     resources = Repo.all(Resource) |> Repo.preload(:tags)
-    render(conn, "index.json", resources: resources)
+
+    case conn.assigns[:request_type] do
+      :json -> render(conn, "index.json", resources: resources)
+      :text -> render(conn, "index.txt", resources: resources)
+    end
   end
 
   def create(conn, %{"resource" => resource_params, "tags" => tag_params}) do

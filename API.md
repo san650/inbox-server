@@ -13,6 +13,10 @@ Endpoints related to resources in the API.
 
 ### List all resources [GET]
 
++ Request As JSON
+
+  + Accepts: application/json
+
 + Response 200 (application/json)
 
     + Body
@@ -35,6 +39,17 @@ Endpoints related to resources in the API.
                 },
             ]
         }
+
++ Request As text
+
+  + Accepts: text/plain
+
++ Response 200 (text/plain)
+
+    + Body
+
+        https://www.example.com/foo foo bar
+        https://www.example.com/bar foo bar
 
 ### Creates a resource [POST]
 

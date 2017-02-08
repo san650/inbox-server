@@ -12,7 +12,7 @@ defmodule Inbox.ResourceControllerTest do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
-  test "lists all entries on index", %{conn: conn} do
+  test "lists all entries on index as JSON", %{conn: conn} do
     resource = Repo.insert! @valid_resource
     conn = get conn, resource_path(conn, :index)
     response = json_response(conn, 200)["data"]
@@ -21,6 +21,15 @@ defmodule Inbox.ResourceControllerTest do
     assert length(response) == 1
     assert List.first(response)["id"] == resource.id
     assert List.first(response)["tags"] == []
+  end
+
+  test "list all entries on index as Text", %{conn: conn} do
+    conn = put_req_header(conn, "accept", "text/plain")
+
+    Repo.insert!(Resource.changeset_with_tags(%Resource{}, %{uri: "https://www.example.org/"}, ~w(foo bar)))
+
+    conn = get conn, resource_path(conn, :index)
+    assert response(conn, 200) == "https://www.example.org/ foo bar\n"
   end
 
   test "shows chosen resource", %{conn: conn} do

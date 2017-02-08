@@ -10,7 +10,7 @@ defmodule Inbox.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["json", "txt"]
   end
 
   scope "/", Inbox do
