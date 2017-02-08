@@ -1,15 +1,16 @@
 defmodule Inbox.ResourceController do
   use Inbox.Web, :controller
+  plug :reacomodate_tags_params, only: ["create"]
 
   alias Inbox.Resource
 
   def index(conn, _params) do
-    resources = Repo.all(Resource)
+    resources = Repo.all(Resource) |> Repo.preload(:tags)
     render(conn, "index.json", resources: resources)
   end
 
-  def create(conn, %{"resource" => resource_params}) do
-    changeset = Resource.changeset(%Resource{}, resource_params)
+  def create(conn, %{"resource" => resource_params, "tags" => tag_params}) do
+    changeset = Resource.changeset_with_tags(%Resource{}, resource_params, tag_params)
 
     case Repo.insert(changeset) do
       {:ok, resource} ->
@@ -24,13 +25,38 @@ defmodule Inbox.ResourceController do
     end
   end
 
+  defp reacomodate_tags_params(conn, _opts) do
+    conn
+    |> Plug.Conn.fetch_query_params
+    |> put_params(extract_tags_param(conn.params))
+  end
+
+  defp put_params(conn, params) do
+    %Plug.Conn{conn|params: params}
+  end
+
+  defp extract_tags_param(params) do
+    resource = Map.get(params, "resource")
+
+    if resource do
+      tags = Map.get(resource, "tags", %{})
+      resource = Map.delete(resource, "tags")
+
+      params
+      |> Map.put("resource", resource)
+      |> Map.put("tags", tags)
+    else
+      params
+    end
+  end
+
   def show(conn, %{"id" => id}) do
-    resource = Repo.get!(Resource, id)
+    resource = Repo.get!(Resource, id) |> Repo.preload(:tags)
     render(conn, "show.json", resource: resource)
   end
 
   def update(conn, %{"id" => id, "resource" => resource_params}) do
-    resource = Repo.get!(Resource, id)
+    resource = Repo.get!(Resource, id) |> Repo.preload(:tags)
     changeset = Resource.changeset(resource, resource_params)
 
     case Repo.update(changeset) do

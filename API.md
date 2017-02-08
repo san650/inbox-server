@@ -22,12 +22,14 @@ Endpoints related to resources in the API.
                 {
                     "id": 42,
                     "uri": "https://www.example.com/foo",
+                    "tags": ["foo", "bar"],
                     "created_at": "2016-11-11T08:40:51.620Z",
                     "updated_at": "2016-11-11T08:40:51.620Z"
                 },
                 {
                     "id": 54,
                     "uri": "https://www.example.com/bar",
+                    "tags": ["foo", "bar"],
                     "created_at": "2016-11-11T08:40:51.620Z",
                     "updated_at": "2016-11-11T08:40:51.620Z"
                 },
@@ -56,6 +58,7 @@ Create a new resource. It takes an URI representing the resource.
             "data": {
                 "id": 42,
                 "uri": "https://www.example.com/",
+                "tags": ["foo", "bar"],
                 "created_at": "2016-11-11T08:40:51.620Z",
                 "updated_at": "2016-11-11T08:40:51.620Z"
             }
@@ -92,6 +95,7 @@ Retrieve the details of one resource
             "data": {
                 "id": 42,
                 "uri": "http://example.com/",
+                "tags": ["foo", "bar"],
                 "created_at": "2016-11-11T08:40:51.620Z",
                 "updated_at": "2016-11-11T08:40:51.620Z"
             }

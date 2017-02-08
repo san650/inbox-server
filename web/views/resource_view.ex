@@ -17,6 +17,7 @@ defmodule Inbox.ResourceView do
     %{id: resource.id,
       uri: resource.uri,
       created_at: resource.inserted_at,
-      updated_at: resource.updated_at}
+      updated_at: resource.updated_at,
+      tags: for tag <- resource.tags do tag.name end}
   end
 end
