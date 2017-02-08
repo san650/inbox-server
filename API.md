@@ -14,13 +14,13 @@ Endpoints related to resources in the API.
 ### List all resources [GET]
 
 + Request As JSON
-
-  + Accepts: application/json
+  + Headers
+    + Accepts: application/json
+  + Parameters
+    + tags: `foo bar ~baz` (array[string], optional) - Filter resources by these tags
 
 + Response 200 (application/json)
-
     + Body
-
         {
             "data": [
                 {
@@ -41,13 +41,13 @@ Endpoints related to resources in the API.
         }
 
 + Request As text
-
-  + Accepts: text/plain
+  + Headers
+    + Accepts: text/plain
+  + Parameters
+    + tags: `foo bar ~baz` (array[string], optional) - Filter resources by these tags
 
 + Response 200 (text/plain)
-
     + Body
-
         https://www.example.com/foo foo bar
         https://www.example.com/bar foo bar
 
@@ -56,19 +56,13 @@ Endpoints related to resources in the API.
 Create a new resource. It takes an URI representing the resource.
 
 + Request (application/x-www-form-urlencoded)
-
     + Body
-
        uri=https:%2F%2Fwww.example.com%2F
 
 + Response 201 (application/json)
-
     + Headers
-
         Location: /resources/42
-
     + Body
-
         {
             "data": {
                 "id": 42,
@@ -80,9 +74,7 @@ Create a new resource. It takes an URI representing the resource.
         }
 
 + Response 422 (application/json)
-
     + Body
-
         {
             "errors": {
                 "uri": [
@@ -99,13 +91,12 @@ Work with a single resource
 
 Retrieve the details of one resource
 
-+ Parameters
-    + id: `42` (number, required) - Identifier of a resource
++ Request
+  + Parameters
+      + id: `42` (number, required) - Identifier of a resource
 
 + Response 200 (application/json)
-
     + Body
-
         {
             "data": {
                 "id": 42,
@@ -120,8 +111,9 @@ Retrieve the details of one resource
 
 ### Delete Resource [DELETE]
 
-+ Parameters
-    + id: `42` (number, required) - Identifier of a resource
++ Request
+  + Parameters
+      + id: `42` (number, required) - Identifier of a resource
 
 + Response 204
 
