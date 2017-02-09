@@ -9,7 +9,7 @@ defmodule Inbox.ResourceControllerTest do
   @valid_resource %Resource{uri: "some content"}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    {:ok, conn: put_req_header(conn, "accept", "application/json, text/javascript, */*; q=0.01")}
   end
 
   test "lists all entries on index as JSON", %{conn: conn} do

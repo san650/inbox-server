@@ -7,6 +7,7 @@ defmodule Inbox.ResourceController do
 
   defp put_request_type(conn, _opts) do
     accepts = hd(Plug.Conn.get_req_header(conn, "accept"))
+    accepts = hd(String.split(accepts, ","))
 
     type = case "json" in MIME.extensions(accepts) do
       true -> :json
