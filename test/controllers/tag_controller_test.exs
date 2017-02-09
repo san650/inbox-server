@@ -15,7 +15,7 @@ defmodule Inbox.TagControllerTest do
     Repo.insert!(Tag.changeset(%Tag{}, %{name: "baz", system: true}))
 
     conn = get conn, tag_path(conn, :index)
-    response = json_response(conn, 200)["data"]
+    response = json_response(conn, 200)["tags"]
 
     assert length(response) == 3
     assert Enum.at(response, 0) == %{"name" => "foo", "group" => "foo_group", "system" => false}

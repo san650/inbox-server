@@ -22,7 +22,7 @@ Endpoints related to resources in the API.
 + Response 200 (application/json)
     + Body
         {
-            "data": [
+            "resources": [
                 {
                     "id": 42,
                     "uri": "https://www.example.com/foo",
@@ -64,7 +64,7 @@ Create a new resource. It takes an URI representing the resource.
         Location: /resources/42
     + Body
         {
-            "data": {
+            "resource": {
                 "id": 42,
                 "uri": "https://www.example.com/",
                 "tags": ["foo", "bar"],
@@ -98,7 +98,7 @@ Retrieve the details of one resource
 + Response 200 (application/json)
     + Body
         {
-            "data": {
+            "resource": {
                 "id": 42,
                 "uri": "http://example.com/",
                 "tags": ["foo", "bar"],
@@ -118,6 +118,29 @@ Retrieve the details of one resource
 + Response 204
 
 + Response 404 (text/plain)
+
+## Tag Collection [/tags]
+
+### List all tags [GET]
+
++ Request
+
++ Response 200 (application/json)
+    + Body
+        {
+            "tags": [
+                {
+                    "name": "foo",
+                    "group": "user",
+                    "system": false
+                },
+                {
+                    "name": "bar",
+                    "group": "user",
+                    "system": true
+                }
+            ]
+        }
 
 ---
 

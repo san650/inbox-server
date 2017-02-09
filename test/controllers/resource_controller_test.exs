@@ -15,7 +15,7 @@ defmodule Inbox.ResourceControllerTest do
   test "lists all entries on index as JSON", %{conn: conn} do
     resource = Repo.insert! @valid_resource
     conn = get conn, resource_path(conn, :index)
-    response = json_response(conn, 200)["data"]
+    response = json_response(conn, 200)["resources"]
 
     assert response
     assert length(response) == 1
@@ -39,7 +39,7 @@ defmodule Inbox.ResourceControllerTest do
 
     conn = get(conn, resource_path(conn, :index), %{"tags" => ~w(foo bar)})
 
-    response = json_response(conn, 200)["data"]
+    response = json_response(conn, 200)["resources"]
 
     assert response
     assert length(response) == 1
@@ -47,7 +47,7 @@ defmodule Inbox.ResourceControllerTest do
 
     conn = get(conn, resource_path(conn, :index), %{"tags" => ~w(foo)})
 
-    response = json_response(conn, 200)["data"]
+    response = json_response(conn, 200)["resources"]
 
     assert response
     assert length(response) == 2
@@ -62,7 +62,7 @@ defmodule Inbox.ResourceControllerTest do
 
     conn = get(conn, resource_path(conn, :index), %{"tags" => ~w(foo ~baz)})
 
-    response = json_response(conn, 200)["data"]
+    response = json_response(conn, 200)["resources"]
 
     assert response
     assert length(response) == 1
@@ -72,7 +72,7 @@ defmodule Inbox.ResourceControllerTest do
   test "shows chosen resource", %{conn: conn} do
     resource = Repo.insert! @valid_resource
     conn = get conn, resource_path(conn, :show, resource)
-    assert json_response(conn, 200)["data"] == %{
+    assert json_response(conn, 200)["resource"] == %{
       "id" => resource.id,
       "uri" => resource.uri,
       "created_at" => NaiveDateTime.to_iso8601(resource.inserted_at),
@@ -88,7 +88,7 @@ defmodule Inbox.ResourceControllerTest do
 
   test "creates and renders resource when data is valid", %{conn: conn} do
     conn = post conn, resource_path(conn, :create), resource: @valid_post_attrs
-    response = json_response(conn, 201)["data"]
+    response = json_response(conn, 201)["resource"]
 
     assert response["id"]
     assert response["tags"] == ~w(foo bar)
@@ -107,7 +107,7 @@ defmodule Inbox.ResourceControllerTest do
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
     resource = Repo.insert! @valid_resource
     conn = put conn, resource_path(conn, :update, resource), resource: @valid_attrs
-    assert json_response(conn, 200)["data"]["id"]
+    assert json_response(conn, 200)["resource"]["id"]
     assert Repo.get_by(Resource, @valid_attrs)
   end
 

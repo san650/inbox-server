@@ -2,7 +2,7 @@ defmodule Inbox.ResourceView do
   use Inbox.Web, :view
 
   def render("index.json", %{resources: resources}) do
-    %{data: render_many(resources, Inbox.ResourceView, "one.json")}
+    %{resources: render_many(resources, Inbox.ResourceView, "one.json")}
   end
 
   def render("index.txt", %{resources: resources}) do
@@ -10,11 +10,11 @@ defmodule Inbox.ResourceView do
   end
 
   def render("show.json", %{resource: resource}) do
-    %{data: render_one(resource, Inbox.ResourceView, "one.json")}
+    %{resource: render_one(resource, Inbox.ResourceView, "one.json")}
   end
 
   def render("resource.json", %{resource: resource}) do
-    %{data: render_one(resource, Inbox.ResourceView, "one.json")}
+    %{resource: render_one(resource, Inbox.ResourceView, "one.json")}
   end
 
   def render("one.json", %{resource: resource}) do
