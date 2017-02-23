@@ -2,6 +2,7 @@ defmodule Inbox.Router do
   use Inbox.Web, :router
 
   pipeline :browser do
+    plug BasicAuth, use_config: {:inbox, :basic_auth}
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -10,6 +11,7 @@ defmodule Inbox.Router do
   end
 
   pipeline :api do
+    plug BasicAuth, use_config: {:inbox, :basic_auth}
     plug :accepts, ["json", "txt"]
   end
 

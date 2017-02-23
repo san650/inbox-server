@@ -17,3 +17,10 @@ config :inbox, Inbox.Repo,
   database: "inbox_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Configure basic auth
+config :inbox, basic_auth: [
+  username: "test",
+  password: "test",
+  realm:    "Inbox"
+]

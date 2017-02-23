@@ -14,8 +14,11 @@ defmodule Inbox.TagControllerTest do
     Repo.insert!(Tag.changeset(%Tag{}, %{name: "bar"}))
     Repo.insert!(Tag.changeset(%Tag{}, %{name: "baz", system: true}))
 
-    conn = get conn, tag_path(conn, :index)
-    response = json_response(conn, 200)["tags"]
+    {:ok, response} = conn
+                      |> with_valid_auth
+                      |> get(tag_path(conn, :index))
+                      |> json_response(200)
+                      |> Map.fetch("tags")
 
     assert length(response) == 3
     assert Enum.at(response, 0) == %{"name" => "foo", "group" => "foo_group", "system" => false}
