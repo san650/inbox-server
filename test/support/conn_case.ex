@@ -27,6 +27,8 @@ defmodule Inbox.ConnCase do
 
       import Inbox.Router.Helpers
 
+      import Inbox.BasicAuthMock
+
       # The default endpoint for testing
       @endpoint Inbox.Endpoint
     end

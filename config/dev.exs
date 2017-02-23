@@ -33,6 +33,13 @@ config :logger, :console, format: "[$level] $message\n"
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
+# Configure basic auth
+config :inbox, basic_auth: [
+  username: "john",
+  password: "12345",
+  realm:    "Inbox"
+]
+
 # Configure your database
 config :inbox, Inbox.Repo,
   adapter: Ecto.Adapters.Postgres,
