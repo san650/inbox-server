@@ -17,6 +17,19 @@ SECRET_KEY_BASE=12345
 DATABASE_URL=foo-bar
 ```
 
+### Heroku
+
+```
+$ heroku create foo-bar
+$ heroku buildpacks:add https://github.com/HashNuke/heroku-buildpack-elixir
+$ heroku buildpacks:add https://github.com/gjaldon/phoenix-static-buildpack
+$ heroku addons:create heroku-postgresql
+$ heroku config:set SECRET_KEY_BASE=`mix phoenix.gen.secret`
+$ heroku config:set BASIC_AUTH_USERNAME=MyUsername
+$ heroku config:set BASIC_AUTH_PASSWORD=MySuperSecureP@ssw0rd
+$ git push heroku master
+```
+
 ## Development
 
 ```
