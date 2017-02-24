@@ -8,11 +8,13 @@ See [API.md](./API.md).
 
 ## Deployment
 
-### HTTP BASIC AUTH configuration
+### Environment variables
 
 ```
 BASIC_AUTH_USERNAME=MyUsername
 BASIC_AUTH_PASSWORD=MySuperSecureP@ssw0rd
+SECRET_KEY_BASE=12345
+DATABASE_URL=foo-bar
 ```
 
 ## Development
