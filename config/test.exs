@@ -24,3 +24,6 @@ config :inbox, basic_auth: [
   password: "test",
   realm:    "Inbox"
 ]
+
+# Configure Access-Control headers
+config :inbox, allow_origin: nil

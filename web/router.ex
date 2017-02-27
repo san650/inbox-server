@@ -1,8 +1,11 @@
 defmodule Inbox.Router do
   use Inbox.Web, :router
 
-  pipeline :browser do
+  pipeline :auth do
     plug BasicAuth, use_config: {:inbox, :basic_auth}
+  end
+
+  pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -11,18 +14,18 @@ defmodule Inbox.Router do
   end
 
   pipeline :api do
-    plug BasicAuth, use_config: {:inbox, :basic_auth}
+    plug Inbox.AccessControl
     plug :accepts, ["json", "txt"]
   end
 
   scope "/", Inbox do
-    pipe_through :browser
+    pipe_through [:auth, :browser]
 
     get "/", PageController, :index
   end
 
   scope "/api/v1", Inbox do
-    pipe_through :api
+    pipe_through [:auth, :api]
     resources "/resources", ResourceController
     resources "/tags", TagController, only: [:index]
   end

@@ -48,3 +48,6 @@ config :inbox, Inbox.Repo,
   database: "inbox_dev",
   hostname: "localhost",
   pool_size: 10
+
+# Configure Access-Control headers
+config :inbox, allow_origin: "*"
