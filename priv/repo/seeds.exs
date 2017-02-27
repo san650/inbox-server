@@ -36,10 +36,3 @@ Enum.each(user_tags, fn {group, names} ->
     Inbox.Repo.insert!(%Inbox.Tag{name: name, group: group, system: true})
   end)
 end)
-
-# Resources
-
-resource = Inbox.Repo.insert!(%Inbox.Resource{uri: "http://www.example.com/"})
-
-Inbox.Repo.add_tag(resource, "url")
-Inbox.Repo.add_tag(resource, "shell")
