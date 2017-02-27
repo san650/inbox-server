@@ -2,6 +2,7 @@ defmodule Inbox.Router do
   use Inbox.Web, :router
 
   pipeline :auth do
+    plug Inbox.AccessControl
     plug BasicAuth, use_config: {:inbox, :basic_auth}
   end
 
@@ -14,7 +15,6 @@ defmodule Inbox.Router do
   end
 
   pipeline :api do
-    plug Inbox.AccessControl
     plug :accepts, ["json", "txt"]
   end
 
