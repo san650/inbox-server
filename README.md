@@ -27,7 +27,7 @@ $ heroku addons:create heroku-postgresql
 $ heroku config:set SECRET_KEY_BASE=`mix phoenix.gen.secret`
 $ heroku config:set BASIC_AUTH_USERNAME=MyUsername
 $ heroku config:set BASIC_AUTH_PASSWORD=MySuperSecureP@ssw0rd
-$ heroku config:set ALLOW_ORIGIN=https://my-client.herokuapp.com/
+$ heroku config:set ALLOW_ORIGIN=https://my-client.herokuapp.com
 $ git push heroku master
 $ heroku run mix ecto.create # ignore the error
 $ heroku run mix ecto.migrate
