@@ -7,7 +7,7 @@ defmodule Inbox.Router do
   end
 
   pipeline :browser do
-    plug :accepts, ["html"]
+    plug :accepts, ["json", "text"]
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
@@ -15,7 +15,7 @@ defmodule Inbox.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json", "txt"]
+    plug :accepts, ["json", "text"]
   end
 
   scope "/", Inbox do

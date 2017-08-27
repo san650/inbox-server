@@ -2,8 +2,6 @@ defmodule Inbox.TagControllerTest do
   use Inbox.ConnCase
 
   alias Inbox.Tag
-  @valid_attrs %{}
-  @invalid_attrs %{}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
