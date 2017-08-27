@@ -1,0 +1,13 @@
+language: elixir
+elixir:
+- 1.5.0
+otp_release:
+- 20.0.4
+deploy:
+  provider: heroku
+  api_key:
+    secure: is8DfuzHA5hXHSi2583bYEUHTzpl1EWo6reSIKgr84pxf1+iTZMQOWrX+l1tdw+udRZpMRj8Lxk9EdWu60kkIL24+RIvenALor1tT+P8DhcwacgdSsm3N2ASapwpBaC26SIdVQ9hY7C7kT9h/Oj1h6vXgxOqarNo+ZemTZoY8NHA+yYYAv9y3iXFU0+1bWvtUrOHM9v2UdRU/uOnHE77PjrH1d8tRkE/Va/dkeA+nw9KUsJSGiLPTD2MjxXSbsPX6tCv5/44dr57HWgm3G+iz17K2yW7ZXCv/iWOHHZmXfMDxmxnj8LIqomg6jq4HQhRoIZUwGa7IXqPVBrxHZT0YvKRBTFdS0+ph7dkv/MiwdMQ4nj5jXRDvk0lSdT+fkb/Q5ZJcFwVKepjrfI+BPMzvBJQ5cHmusCuvAR9te9R6BHwiIPZMPdnZ7Em2dY8PDhY7Ljy2/Oq802CYO9oDa3m6sSBDyuJrEuNFhYd9E9ESj45Ttnu5UrFh/BMuN6Q4NnPZ4ygFpu5KLHsiOg1sVRezzplQeRn95G2e61fKx13jQye+fbdDq310BMV0c/DWqEzPJkWAVtCDMhcD4N3ykvEgZMPCVbk6p29YEiqPqRqTfke9GRqNzZiY3mucvhO47VsnIzARCwM8vF498Ej+wLQIMe7zO2cqPdo76U9HE6KOwM=
+  app:
+    master: inboxx
+  on:
+    repo: san650/inbox-server
