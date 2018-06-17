@@ -3,7 +3,10 @@ defmodule Inbox.Repo do
   alias Inbox.Tag
 
   def find_or_create(Tag, tag_names) do
-    Enum.map(tag_names, &find_or_create_tags/1)
+    tag_names
+    |> Enum.reject(& &1 == nil)
+    |> Enum.reject(& &1 == "")
+    |> Enum.map(&find_or_create_tags/1)
   end
 
   defp find_or_create_tags(tag_name) do
