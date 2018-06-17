@@ -1,6 +1,6 @@
 defmodule Inbox.ResourceController do
   use Inbox.Web, :controller
-  plug :reacomodate_tags_params, only: ["create"]
+  plug :reaccommodate_tags_params, only: ["create"]
   plug :put_request_type, only: ["index"]
 
   alias Inbox.Resource
@@ -14,9 +14,15 @@ defmodule Inbox.ResourceController do
       false -> :text
     end
 
-    Plug.Conn.assign(conn, :request_type, type)
+    Plug.Conn.put_private(conn, :request_type, type)
   end
 
+  # GET /api/v1/resources?tags[]=foo&tags[]=~bar
+  #
+  # *tags* parameter:
+  #   tags[]=foo resource must have tag associated
+  #   tags[]=~bar resource mustn't have the tag associated
+  #
   def index(conn, %{"tags" => tag_params}) do
     include_tags = Enum.filter(tag_params, &(String.match?(&1, ~r/^[^~]/)))
     exclude_tags = Enum.filter(tag_params, &(String.match?(&1, ~r/^~/)))
@@ -36,21 +42,27 @@ defmodule Inbox.ResourceController do
                   end)
                 end)
 
-    case conn.assigns[:request_type] do
+    case request_type(conn) do
       :json -> render(conn, "index.json", resources: resources)
       :text -> render(conn, "index.txt", resources: resources)
     end
   end
 
+  # GET /api/v1/resources
   def index(conn, _params) do
     resources = Repo.all(Resource) |> Repo.preload(:tags)
 
-    case conn.assigns[:request_type] do
+    case request_type(conn) do
       :json -> render(conn, "index.json", resources: resources)
       :text -> render(conn, "index.txt", resources: resources)
     end
   end
 
+  # POST /api/v1/resources
+  #
+  # Vars:
+  #   resource[url] = http://www.example.com/
+  #   resource[tags][] = foo
   def create(conn, %{"resource" => resource_params, "tags" => tag_params}) do
     changeset = Resource.changeset_with_tags(%Resource{}, resource_params, tag_params)
 
@@ -67,7 +79,7 @@ defmodule Inbox.ResourceController do
     end
   end
 
-  defp reacomodate_tags_params(conn, _opts) do
+  defp reaccommodate_tags_params(conn, _opts) do
     conn
     |> Plug.Conn.fetch_query_params
     |> put_params(extract_tags_param(conn.params))
@@ -92,11 +104,13 @@ defmodule Inbox.ResourceController do
     end
   end
 
+  # GET /api/v1/resources/1
   def show(conn, %{"id" => id}) do
     resource = Repo.get!(Resource, id) |> Repo.preload(:tags)
     render(conn, "show.json", resource: resource)
   end
 
+  # PUT /api/v1/resources/1
   def update(conn, %{"id" => id, "resource" => resource_params}) do
     resource = Repo.get!(Resource, id) |> Repo.preload(:tags)
     changeset = Resource.changeset(resource, resource_params)
@@ -111,6 +125,7 @@ defmodule Inbox.ResourceController do
     end
   end
 
+  # DELETE /api/v1/resources/1
   def delete(conn, %{"id" => id}) do
     resource = Repo.get!(Resource, id)
 
@@ -119,5 +134,9 @@ defmodule Inbox.ResourceController do
     Repo.delete!(resource)
 
     send_resp(conn, :no_content, "")
+  end
+
+  defp request_type(conn) do
+    conn.private[:request_type]
   end
 end
