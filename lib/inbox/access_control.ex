@@ -8,7 +8,10 @@ defmodule Inbox.AccessControl do
   def call(conn, _opts) do
     case Application.get_env(:inbox, :allow_origin) do
       nil -> conn
-      value -> put_resp_header(conn, "Access-Control-Allow-Origin", value)
+      value ->
+        conn
+        |> put_resp_header("Access-Control-Allow-Origin", value)
+        |> put_resp_header("Access-Control-Allow-Credentials", "true")
     end
   end
 end
